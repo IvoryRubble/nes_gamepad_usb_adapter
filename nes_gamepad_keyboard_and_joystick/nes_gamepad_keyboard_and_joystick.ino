@@ -1,9 +1,21 @@
 #include <Keyboard.h>
 #include "NesGamepad.h"
+#include "ButtonDebounce.h"
 
 NesGamepad gamepad(A0, A1, A2);
 
 unsigned long previousBtnUpdateTime = 0;
+
+ButtonDebounce btnDebouces[gamepad.btnsCount] = {
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  {}
+};
 
 const char* btnNames[gamepad.btnsCount] = {
   "A",
@@ -33,32 +45,28 @@ void setup() {
 }
 
 void loop() {
-  bool btnsPrevious[gamepad.btnsCount];
-  initBtns(btnsPrevious);
   gamepad.update();
-  bool btns[gamepad.btnsCount];
-  initBtns(btns);
+  btnDebouces[0].updateState(gamepad.btnA);
+  btnDebouces[1].updateState(gamepad.btnB);
+  btnDebouces[2].updateState(gamepad.btnSelect);
+  btnDebouces[3].updateState(gamepad.btnStart);
+  btnDebouces[4].updateState(gamepad.btnUp);
+  btnDebouces[5].updateState(gamepad.btnDown);
+  btnDebouces[6].updateState(gamepad.btnLeft);
+  btnDebouces[7].updateState(gamepad.btnRight);
 
   unsigned long currentTime = millis();
+  unsigned long longDelayTimeout = 1000;
   for (int i = 0; i < gamepad.btnsCount; i++) {
-    if (btns[i] && !btnsPrevious[i]) {
+    if (btnDebouces[i].isBtnPressed) {
+      if (currentTime - previousBtnUpdateTime > longDelayTimeout) Serial.println();
       Serial.print("+ "); Serial.print(currentTime - previousBtnUpdateTime); Serial.print(" ms "); Serial.print(btnNames[i]); Serial.println(" pressed");
       previousBtnUpdateTime = currentTime;
     }
-    if (!btns[i] && btnsPrevious[i]) {
+    if (btnDebouces[i].isBtnReleased) {
+      if (currentTime - previousBtnUpdateTime > longDelayTimeout) Serial.println();
       Serial.print("+ "); Serial.print(currentTime - previousBtnUpdateTime); Serial.print(" ms "); Serial.print(btnNames[i]); Serial.println(" released");
       previousBtnUpdateTime = currentTime;
     }
   }
-}
-
-void initBtns(bool btns[]) {
-  btns[0] = gamepad.btnA;
-  btns[1] = gamepad.btnB;
-  btns[2] = gamepad.btnSelect;
-  btns[3] = gamepad.btnStart;
-  btns[4] = gamepad.btnUp;
-  btns[5] = gamepad.btnDown;
-  btns[6] = gamepad.btnLeft;
-  btns[7] = gamepad.btnRight;
 }
