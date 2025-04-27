@@ -38,20 +38,14 @@ void loop() {
 
   digitalWrite(pulsePin, LOW);
   delayMicroseconds(delayTimeMicroseconds);
-  btns[0] = !digitalRead(dataPin);
 
-  for (int i = 1; i < btnsCount; i++) {
+  for (int i = 0; i < btnsCount; i++) {
+    btns[i] = !digitalRead(dataPin);
     digitalWrite(pulsePin, HIGH);
     delayMicroseconds(delayTimeMicroseconds);
     digitalWrite(pulsePin, LOW);
     delayMicroseconds(delayTimeMicroseconds);
-    btns[i] = !digitalRead(dataPin);  
   }
-
-  digitalWrite(pulsePin, HIGH);
-  delayMicroseconds(delayTimeMicroseconds);
-  digitalWrite(pulsePin, LOW);
-  delayMicroseconds(delayTimeMicroseconds);
 
   String s = String();
   for (int i = 0; i < btnsCount; i++) {
