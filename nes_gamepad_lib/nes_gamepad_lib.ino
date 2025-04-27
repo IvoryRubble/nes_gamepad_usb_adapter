@@ -2,7 +2,7 @@
 
 NesGamepad gamepad(A0, A1, A2);
 
-const char* btnNames[8] = {
+const char* btnNames[gamepad.btnsCount] = {
   "A",
   "B",
   "Select",
@@ -31,7 +31,7 @@ void loop() {
   btns[6] = gamepad.btnLeft;
   btns[7] = gamepad.btnRight;
 
-    String s = String();
+  String s = String();
   for (int i = 0; i < gamepad.btnsCount; i++) {
     s = s + btnNames[i] + ":" + btns[i] + " ";
   }
