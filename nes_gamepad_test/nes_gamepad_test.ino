@@ -35,8 +35,6 @@ void loop() {
   digitalWrite(latchPin, HIGH);
   delayMicroseconds(delayTimeMicroseconds * 2);
   digitalWrite(latchPin, LOW);
-
-  digitalWrite(pulsePin, LOW);
   delayMicroseconds(delayTimeMicroseconds);
 
   for (int i = 0; i < btnsCount; i++) {
