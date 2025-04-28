@@ -42,6 +42,8 @@ const uint8_t keysKeyboard[gamepad.btnsCount] = {
 void setup() {
   Serial.begin(115200);
   gamepad.init();
+  delay(2000);
+  Serial.println("Please stand by...");
 }
 
 void loop() {
@@ -54,6 +56,15 @@ void loop() {
   btnDebouces[5].updateState(gamepad.btnDown);
   btnDebouces[6].updateState(gamepad.btnLeft);
   btnDebouces[7].updateState(gamepad.btnRight);
+
+  for (int i = 0; i < gamepad.btnsCount; i++) {
+    if (btnDebouces[i].isBtnPressed) {
+      Keyboard.press(keysKeyboard[i]);
+    }
+    if (btnDebouces[i].isBtnReleased) {
+      Keyboard.release(keysKeyboard[i]);
+    }
+  }
 
   unsigned long currentTime = millis();
   unsigned long longDelayTimeout = 1000;

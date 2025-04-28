@@ -49,7 +49,7 @@ class ButtonDebounce {
     }
   private:
     bool debounceDelayPassed = false;
-    unsigned long debounceDelay = 10;
+    unsigned long debounceDelay = 25;
 
     bool longPressTimeoutPassed = false;
     unsigned long longPressTimeout = 1500;

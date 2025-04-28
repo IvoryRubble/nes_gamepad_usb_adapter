@@ -32,6 +32,8 @@ void NesGamepad::update() {
     delayMicroseconds(delayBeforeReadMicros);
   }
 
+  delayMicroseconds(delayBeforeReadMicros);
+
   btnA = btns[0];
   btnB = btns[1];
   btnSelect = btns[2];
