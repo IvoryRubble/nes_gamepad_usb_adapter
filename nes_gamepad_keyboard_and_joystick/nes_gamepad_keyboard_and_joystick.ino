@@ -1,7 +1,21 @@
 #include <Keyboard.h>
 #include <Joystick.h>
+#include <EEPROM.h>
 #include "NesGamepad.h"
 #include "ButtonDebounce.h"
+
+bool serialPrintEnabled = false;
+unsigned long previousBtnUpdateTime = 0;
+
+const int outputModesCount = 2;
+enum OutputMode {
+  keyboardOutputMode = 0,
+  joystickOutputMode = 1
+};
+const char* outputModeNames[outputModesCount] = { "keyboard", "joystick" };
+
+OutputMode outputMode = keyboardOutputMode;
+int outputModeStorageAddress = 24;
 
 const int latchPin = A0;
 const int pulsePin = A1;
@@ -10,8 +24,6 @@ const unsigned int delayBeforeReadMicros = 6;
 NesGamepad gamepad(latchPin, pulsePin, dataPin, delayBeforeReadMicros);
 
 Joystick_ joystick(JOYSTICK_DEFAULT_REPORT_ID, JOYSTICK_TYPE_GAMEPAD, 4, 1, false, false, false, false, false, false, false, false, false, false, false);
-
-unsigned long previousBtnUpdateTime = 0;
 
 ButtonDebounce btnDebouces[gamepad.btnsCount] = {
   {},
@@ -65,12 +77,29 @@ const uint8_t keysJoystick[gamepad.btnsCount] = {
 };
 
 void setup() {
-  Serial.begin(115200);
   gamepad.init();
-  Keyboard.begin();
-  joystick.begin();
+
   delay(2000);
-  Serial.println("Please stand by...");
+  int gamepadReadigsToDiscard = 2;
+  for (int i = 0; i < gamepadReadigsToDiscard + 1; i++) {
+    gamepad.update();
+  }
+
+  initSerialPrintEnableFlag();
+  initOutputMode();
+
+  if (serialPrintEnabled) {
+    printOutputModeInfo();
+  }
+
+  switch (outputMode) {
+    case OutputMode::keyboardOutputMode:
+      Keyboard.begin();
+      break;
+    case OutputMode::joystickOutputMode:
+      joystick.begin();
+      break;
+  }
 }
 
 void loop() {
@@ -84,15 +113,66 @@ void loop() {
   btnDebouces[6].updateState(gamepad.btnLeft);
   btnDebouces[7].updateState(gamepad.btnRight);
 
-  // for (int i = 0; i < gamepad.btnsCount; i++) {
-  //   if (btnDebouces[i].isBtnPressed) {
-  //     Keyboard.press(keysKeyboard[i]);
-  //   }
-  //   if (btnDebouces[i].isBtnReleased) {
-  //     Keyboard.release(keysKeyboard[i]);
-  //   }
-  // }
+  switch (outputMode) {
+    case OutputMode::keyboardOutputMode:
+      updateKeyboard();
+      break;
+    case OutputMode::joystickOutputMode:
+      updateJoystick();
+      break;  
+  }
 
+  if (serialPrintEnabled) {
+    printGamepadStatus();
+  }
+}
+
+void initSerialPrintEnableFlag() {
+  if (gamepad.btnStart) {
+    serialPrintEnabled = true;
+    Serial.begin(115200);
+    delay(5000);
+    Serial.println();
+    Serial.println("Please stand by...");
+    delay(1000);
+    Serial.println();
+    Serial.println("Enabled serial output by pressing Start on gamepad during startup");
+  } else {
+    serialPrintEnabled = false;
+  }
+}
+
+void initOutputMode() {
+  if (gamepad.btnStart && (gamepad.btnA || gamepad.btnB)) {
+    if (gamepad.btnA) outputMode = OutputMode::keyboardOutputMode;
+    if (gamepad.btnB) outputMode = OutputMode::joystickOutputMode;
+    EEPROM.put(outputModeStorageAddress, outputMode);
+  } else {
+    EEPROM.get(outputModeStorageAddress, outputMode);
+    outputMode = (OutputMode)(outputMode % outputModesCount);
+  }
+}
+
+void printOutputModeInfo() {
+  Serial.println("Press Start+A on gamepad during startup to change output mode to keyboard");
+  Serial.println("Press Start+B on gamepad during startup to change output mode to joystick");
+  Serial.print("Current output mode: ");
+  Serial.println(outputModeNames[outputMode]);
+  Serial.println();
+}
+
+void updateKeyboard() {
+  for (int i = 0; i < gamepad.btnsCount; i++) {
+    if (btnDebouces[i].isBtnPressed) {
+      Keyboard.press(keysKeyboard[i]);
+    }
+    if (btnDebouces[i].isBtnReleased) {
+      Keyboard.release(keysKeyboard[i]);
+    }
+  }
+}
+
+void updateJoystick() {
   for (int i = 0; i < 4; i++) {
     if (btnDebouces[i].isBtnPressed) {
       joystick.pressButton(keysJoystick[i]);
@@ -127,7 +207,9 @@ void loop() {
       joystick.setHatSwitch(0, -1);
     }
   }
+}
 
+void printGamepadStatus() {
   unsigned long currentTime = millis();
   unsigned long longDelayTimeout = 1000;
   for (int i = 0; i < gamepad.btnsCount; i++) {
