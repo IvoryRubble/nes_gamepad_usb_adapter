@@ -149,7 +149,7 @@ void initOutputMode() {
     EEPROM.put(outputModeStorageAddress, outputMode);
   } else {
     EEPROM.get(outputModeStorageAddress, outputMode);
-    outputMode = (OutputMode)(outputMode % outputModesCount);
+    outputMode = (OutputMode)(abs(outputMode) % outputModesCount);
   }
 }
 
