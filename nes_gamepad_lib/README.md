@@ -3,6 +3,7 @@
 Yet another library to read buttons from NES (aka Famicom, aka Dendy) gamepad.  
 
 ## Sources
+
 Protocol description:  
 https://tresi.github.io/nes/   
 https://web.archive.org/web/20150829043041/https://www.mit.edu/~tarvizo/nes-controller.html  
