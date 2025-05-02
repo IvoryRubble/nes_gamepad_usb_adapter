@@ -13,12 +13,12 @@ https://youtu.be/PK0Xq24e0vw
 
 ## Repository content
 
-NesGamepad_keyboard  
-Emulates USB keyboard.
+[NesGamepad_keyboard](https://github.com/IvoryRubble/nes_gamepad_usb_adapter/blob/master/NesGamepad_keyboard/ButtonDebounce.h)  
+Firmware for adapter that emulates only USB keyboard.
 Press Start on gamepad during startup to enable serial output.    
 
-NesGamepad_keyboard_and_joystick  
-Emulates USB keyboard or USB gamepad.   
+[NesGamepad_keyboard_and_joystick](https://github.com/IvoryRubble/nes_gamepad_usb_adapter/tree/master/NesGamepad_keyboard_and_joystick)  
+Firmware for adapter that emulates USB keyboard or USB gamepad.   
 Press Start+A on gamepad during startup to change output mode to keyboard.  
 Press Start+B on gamepad during startup to change output mode to joystick.  
 
@@ -29,6 +29,9 @@ https://github.com/IvoryRubble/ArduinoNesGamepadLibrary
 
 `Joystick` library for NesGamepad_keyboard_and_joystick example:  
 https://github.com/MHeironimus/ArduinoJoystickLibrary  
+
+This `ButtonDebounce` class is also used:  
+https://gist.github.com/IvoryRubble/4eb6355ca0a115232f57452e6ee2bdb1  
 
 ## Making of
 
