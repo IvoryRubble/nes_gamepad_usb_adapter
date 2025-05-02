@@ -4,12 +4,12 @@ Adapter features:
 - No gamepads modification needed  
 - Recognized by PC as USB keyboard or USB gamepad (working mode can be switched any time)  
 
-![](photos/nes_gamepad_adapter_connected.jpg)  
-![](photos/nes_gamepad_adapter_connected_1.jpg)  
-
 Video demo:  
 https://vkvideo.ru/video-228936534_456239021   
 https://youtu.be/PK0Xq24e0vw  
+
+![](photos/nes_gamepad_adapter_connected.jpg)  
+![](photos/nes_gamepad_adapter_connected_1.jpg)  
 
 ## Making of
 
