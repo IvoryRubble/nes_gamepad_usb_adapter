@@ -25,7 +25,7 @@
 // THE SOFTWARE.
 //
 
-#include "NesGamepad.h"
+#include <NesGamepad.h>
 
 NesGamepad::NesGamepad(int latchPin, int pulsePin, int dataPin, unsigned int delayBeforeReadMicros) : 
   latchPin(latchPin), 

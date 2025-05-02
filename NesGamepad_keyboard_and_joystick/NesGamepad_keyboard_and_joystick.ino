@@ -1,7 +1,13 @@
+// Press Start on gamepad during startup to enable serial output  
+// Press Start+A on gamepad during startup to change output mode to keyboard
+// Press Start+B on gamepad during startup to change output mode to joystick
+
 #include <Keyboard.h>
+// Install Joystick lib from here: https://github.com/MHeironimus/ArduinoJoystickLibrary
 #include <Joystick.h>
+
 #include <EEPROM.h>
-#include "NesGamepad.h"
+#include <NesGamepad.h>
 #include "ButtonDebounce.h"
 
 bool serialPrintEnabled = false;
@@ -25,15 +31,16 @@ NesGamepad gamepad(latchPin, pulsePin, dataPin, delayBeforeReadMicros);
 
 Joystick_ joystick(JOYSTICK_DEFAULT_REPORT_ID, JOYSTICK_TYPE_GAMEPAD, 4, 1, false, false, false, false, false, false, false, false, false, false, false);
 
+unsigned long debounceDelay = 25;
 ButtonDebounce btnDebouces[gamepad.btnsCount] = {
-  {},
-  {},
-  {},
-  {},
-  {},
-  {},
-  {},
-  {}
+  {debounceDelay},
+  {debounceDelay},
+  {debounceDelay},
+  {debounceDelay},
+  {debounceDelay},
+  {debounceDelay},
+  {debounceDelay},
+  {debounceDelay}
 };
 
 const char* btnNames[gamepad.btnsCount] = {
