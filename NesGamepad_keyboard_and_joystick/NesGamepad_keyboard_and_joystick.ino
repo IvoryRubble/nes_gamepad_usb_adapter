@@ -5,8 +5,8 @@
 #include <Keyboard.h>
 // Install Joystick lib from here: https://github.com/MHeironimus/ArduinoJoystickLibrary
 #include <Joystick.h>
-
 #include <EEPROM.h>
+// Install NesGamepad lib from here: https://github.com/IvoryRubble/ArduinoNesGamepadLibrary
 #include <NesGamepad.h>
 #include "ButtonDebounce.h"
 

@@ -1,6 +1,7 @@
 // Press Start on gamepad during startup to enable serial output 
 
 #include <Keyboard.h>
+// Install NesGamepad lib from here: https://github.com/IvoryRubble/ArduinoNesGamepadLibrary
 #include <NesGamepad.h>
 #include "ButtonDebounce.h"
 

@@ -11,6 +11,25 @@ https://youtu.be/PK0Xq24e0vw
 ![](photos/nes_gamepad_adapter_connected.jpg)  
 ![](photos/nes_gamepad_adapter_connected_1.jpg)  
 
+## Repository content
+
+NesGamepad_keyboard  
+Emulates USB keyboard.
+Press Start on gamepad during startup to enable serial output.    
+
+NesGamepad_keyboard_and_joystick  
+Emulates USB keyboard or USB gamepad.   
+Press Start+A on gamepad during startup to change output mode to keyboard.  
+Press Start+B on gamepad during startup to change output mode to joystick.  
+
+## Dependencies
+
+`NesGamepad` library to interact with gamepad:  
+https://github.com/IvoryRubble/ArduinoNesGamepadLibrary  
+
+`Joystick` library for NesGamepad_keyboard_and_joystick example:  
+https://github.com/MHeironimus/ArduinoJoystickLibrary  
+
 ## Making of
 
 ![](photos/nes_gamepad_adapter_making_of_1.jpg)  
