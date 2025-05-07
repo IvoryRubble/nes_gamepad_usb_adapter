@@ -1,5 +1,11 @@
 # USB adapter for NES (Dendy) gamepad
 
+Article on habr.com: https://habr.com/p/906662/  
+
+`NesGamepad` library:  
+https://github.com/IvoryRubble/ArduinoNesGamepadLibrary  
+https://registry.platformio.org/libraries/ivoryrubble/NesGamepad  
+
 Adapter features:  
 - No gamepads modification needed  
 - Recognized by PC as USB keyboard or USB gamepad (working mode can be switched any time)  
